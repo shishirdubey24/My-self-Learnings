@@ -1,4 +1,5 @@
 import Joi from "joi";
+// SignUp Function-->
 export const signupValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(100).required(),
@@ -11,7 +12,7 @@ export const signupValidation = (req, res, next) => {
   }
   next();
 };
-
+//Login Function-->
 export const loginValidation = (req, res, next) => {
   const schema = Joi.object({
     email: Joi.string().email().required(),
