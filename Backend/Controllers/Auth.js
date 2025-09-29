@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import UserModel from "../Models/User.js";
 import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -47,13 +48,19 @@ export const Login = async (req, res) => {
 
     //send response after token generation::
 
-    res.status(200).json({
-      message: "LogedIn",
-      success: true,
-      jwToken,
-      email,
-      name: user.name,
-    });
+    res
+      .cookie("Token", jwToken, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "strict",
+      })
+      .status(200)
+      .json({
+        message: "LoggedIn",
+        success: true,
+        email,
+        name: user.name,
+      });
   } catch (error) {
     res.status(500).json({
       message: "Internal Error",
