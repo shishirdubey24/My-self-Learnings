@@ -42,22 +42,24 @@ export const Login = async (req, res) => {
 
     const jwToken = jwt.sign(
       { email: user.email, id: user._id },
-      process.env.JWT_SECREAT,
+      process.env.JWT_SECRET,
       { expiresIn: "24hr" }
     );
 
     //send response after token generation::
 
     res
-      .cookie("Token", jwToken, {
+      .cookie("token", jwToken, {
         httpOnly: true,
         secure: false,
         sameSite: "strict",
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
       })
       .status(200)
       .json({
         message: "LoggedIn",
         success: true,
+
         email,
         name: user.name,
       });
