@@ -1,5 +1,6 @@
 import Joi from "joi";
 // SignUp Function-->
+console.log("Inside SignUp Validation");
 export const signupValidation = (req, res, next) => {
   const schema = Joi.object({
     name: Joi.string().min(3).max(100).required(),
@@ -10,6 +11,7 @@ export const signupValidation = (req, res, next) => {
   if (error) {
     return res.status(404).json({ message: "Bad request", error });
   }
+  console.log("Validation Done");
   next();
 };
 //Login Function-->
