@@ -30,7 +30,6 @@ export const Login = async (req, res) => {
         success: false,
       });
     }
-    // CHeck Passowrd is correct or not
     const isPasswordEql = await bcrypt.compare(password, user.password);
     if (!isPasswordEql) {
       return res.status(403).json({
@@ -38,28 +37,24 @@ export const Login = async (req, res) => {
         success: false,
       });
     }
-    // create Jwt token
 
     const jwToken = jwt.sign(
-      { email: user.email, id: user._id },
+      { email: user.email, id: user._id, name: user.name },
       process.env.JWT_SECRET,
-      { expiresIn: "24hr" }
+      { expiresIn: "24hr" },
     );
-
-    //send response after token generation::
 
     res
       .cookie("token", jwToken, {
         httpOnly: true,
         secure: false,
         sameSite: "strict",
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+        maxAge: 24 * 60 * 60 * 1000,
       })
       .status(200)
       .json({
         message: "LoggedIn",
         success: true,
-
         email,
         name: user.name,
       });
