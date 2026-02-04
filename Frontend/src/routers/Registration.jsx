@@ -1,110 +1,105 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import axios from "axios"
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Registration = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    state: '',
-    password: '',
-    phoneNumber: '',
-  });
+  const[Input,setInput]=useState({});
+ 
+const handleInput=(e)=>{
+  setInput({...Input,[e.target.name]:e.target.value})
+}
+ const handleForm=async(e)=>{
+  e.preventDefault();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  try {
+    const response=await axios.post("http://localhost:5000/auth/signup",Input)
+console.log("Data has been sent",response)
+  } catch (error) {
+    console.log(error)
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Data:', formData);
-    // Add logic to process form data
-  };
-
+  }
   return (
-    <div className="container mt-5 form">
-      <h2 className="text-center mb-4">User Registration</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Name Field */}
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            required
-          />
+    <div className="min-h-screen bg-gray-50 py-12 px-4 flex items-center justify-center">
+      <div className="max-w-md w-full">
+        
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
         </div>
 
-        {/* Email Field */}
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            required
-          />
-        </div>
+        {/* Form Card */}
+        
+        <div className="bg-white p-8 shadow-lg rounded-lg border border-gray-200">
+          <form className="space-y-6" onSubmit={handleForm}>
+            
+            {/* Name Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                 Name <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <FaUser className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="text"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                  placeholder="Enter your full name"
+                  required
+                  name="name"
+                   value={Input?.name ||""}
+                  onChange={handleInput}
+                 
+                />
+              </div>
+            </div>
 
-        {/* State Field */}
-        <div className="mb-3">
-          <label htmlFor="state" className="form-label">State</label>
-          <input
-            type="text"
-            className="form-control"
-            id="state"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            placeholder="Enter your state"
-          />
-        </div>
+            {/* Email Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email Address <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <FaEnvelope className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                <input
+                  type="email"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                  placeholder="Enter your email"
+                  required
+                  name='email'
+                  value={Input?.email||""}
+                    onChange={handleInput}
+                />
+              </div>
+            </div>
 
-        {/* Password Field */}
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-          />
+            {/* Password Field */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <FaLock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+               <input
+                   type="password"
+                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-transparent"
+                  placeholder="Create a strong password"
+                  required
+                    name="password"   
+                     value={Input?.password || ""}  
+                       onChange={handleInput}
+                />
+              </div>
+            </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full py-3 px-4 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 transition duration-200"
+            >
+              Create Account
+            </button>
+          </form>    
         </div>
-
-        {/* Phone Number Field */}
-        <div className="mb-3">
-          <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
-          <input
-            type="tel"
-            className="form-control"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Enter your phone number"
-            pattern="[0-9]{10}"
-            required
-          />
-        </div>
-
-        {/* Submit Button */}
-        <button type="submit" className="btn btn-primary">Submit</button>
-      </form>
+      </div>
     </div>
   );
 };
