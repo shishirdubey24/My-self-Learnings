@@ -1,6 +1,8 @@
 import { FaHeart, FaShoppingBag, FaUser } from 'react-icons/fa';
-
+   import { Link } from 'react-router-dom';
 const Header = () => {
+
+  
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       {/* Main Header */}
@@ -60,10 +62,7 @@ const Header = () => {
 
           {/* Right Side Icons - With Names and Spacing */}
           <div className="flex items-center space-x-8">
-            <button className="flex flex-col items-center text-gray-600 hover:text-gray-900 transition duration-200">
-              <FaUser className="h-5 w-5 mb-1" />
-              <span className="text-xs">Profile</span>
-            </button>
+               <Link to="/profile">Profile</Link>
             <button className="flex flex-col items-center text-gray-600 hover:text-gray-900 transition duration-200 relative">
               <FaHeart className="h-5 w-5 mb-1" />
               <span className="text-xs">Wishlist</span>
