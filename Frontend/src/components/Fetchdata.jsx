@@ -13,7 +13,7 @@ const Fetchdata = () => {
 
         const response =await fetch("https://fakestoreapi.com/products")
        const data = await response.json();
-      
+       
        dispatch(statusActions.fetchSuccess());
        dispatch(dataActions.addData(data));
 
